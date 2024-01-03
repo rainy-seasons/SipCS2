@@ -18,5 +18,8 @@ private:
 	bool m_BhopEnabled;
 	bool m_TriggerEnabled;
 	bool m_DefuseCheckEnabled;
+	int  m_ToggleBhop;
+	int  m_ToggleTrigger;
+	int  m_ToggleDefuseCheck;
 };
 

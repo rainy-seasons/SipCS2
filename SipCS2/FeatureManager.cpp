@@ -1,11 +1,15 @@
 #include "Offsets.h"
 #include "Patterns.h"
 #include "FeatureManager.h"
+#include "CFGManager.h"
 #include <iostream>
 #include <thread>
 
 FeatureManager::FeatureManager()
 {
+	CFGManager* cfg = new CFGManager("config.ini");
+	m_ActivateTrigger = cfg->ReadKey("KEYBINDS", "Tiggerbot_Hold");
+	delete cfg;
 	Mem = new PMemory("cs2.exe");
 	clientDLL = Mem->GetModuleAddress("client.dll");
 	//scanModule = reinterpret_cast<HMODULE>(clientDLL);
@@ -124,7 +128,8 @@ void FeatureManager::Bhop()
 
 void FeatureManager::Trigger()
 {
-	if (GetAsyncKeyState(VK_LMENU)) // Left ALT
+	//if (GetAsyncKeyState(VK_LMENU)) // Left ALT
+	if (GetAsyncKeyState(m_ActivateTrigger))
 	{
 		m_iIDEntIndex = Mem->ReadMem<int32_t>(localPlayerPawn + offsets::m_iIDEntIndex);
 		entEntry = Mem->ReadMem<uintptr_t>(entityList + 0x8 * (m_iIDEntIndex >> 9) + 0x10);

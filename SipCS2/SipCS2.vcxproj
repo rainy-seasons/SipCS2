@@ -125,6 +125,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CFGManager.h" />
     <ClInclude Include="FeatureManager.h" />
     <ClInclude Include="Offsets.h" />
     <ClInclude Include="Patterns.h" />
@@ -132,6 +133,7 @@
     <ClInclude Include="SettingManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CFGManager.cpp" />
     <ClCompile Include="FeatureManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PMemory.cpp" />
