@@ -8,8 +8,9 @@
 FeatureManager::FeatureManager()
 {
 	CFGManager* cfg = new CFGManager("config.ini");
-	m_ActivateTrigger = cfg->ReadKey("KEYBINDS", "Tiggerbot_Hold");
+	m_ActivateTrigger = cfg->ReadKey("KEYBINDS", "Triggerbot_Hold");
 	delete cfg;
+
 	Mem = new PMemory("cs2.exe");
 	clientDLL = Mem->GetModuleAddress("client.dll");
 	//scanModule = reinterpret_cast<HMODULE>(clientDLL);
@@ -112,7 +113,7 @@ void FeatureManager::Bhop()
 {
 	if (localPlayer)
 	{
-		if (GetAsyncKeyState(VK_SPACE)) // check if player is on the ground
+		if (GetAsyncKeyState(VK_SPACE))
 		{
 			int onGround = Mem->ReadMem<int>(localPlayer + offsets::m_fFlags); // Read the onGround flag
 

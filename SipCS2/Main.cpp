@@ -1,4 +1,4 @@
-#define WIN32_LEAN_AND_MEAN
+﻿#define WIN32_LEAN_AND_MEAN
 #include "FeatureManager.h"
 #include "SettingManager.h"
 
@@ -58,8 +58,14 @@ void MenuScreen()
 {
 	system("cls");
 	system("color D");
+	std::cout << R"(      _)        )"  << std::endl;
+	std::cout << R"(  __|  |  __ \ )" << std::endl;
+	std::cout << R"(\__ \  |  | | )" << std::endl;
+	std::cout << R"(____/ _|  .__/  )" << std::endl;
+	std::cout << R"(         _|     )" << std::endl;
 
-	std::cout << "||          Sip            ||" << std::endl;
+
+	//std::cout << "||          Sip            ||" << std::endl;
 	std::cout << "-----------------------------" << std::endl;
 	std::cout << "|| [ UP ]     Bhop         ||" << std::endl;
 	std::cout << "|| [ DWN ]    Trigger      ||" << std::endl;
