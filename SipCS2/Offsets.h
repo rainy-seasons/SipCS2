@@ -5,7 +5,6 @@
 
 namespace offsets
 {
-	//extern uintptr_t dwEntityList;
 	uintptr_t dwEntityList = 0x17C1950;
 	uintptr_t dwLocalPlayerController = 0x1810F48;
 	uintptr_t dwLocalPlayerPawn = 0x16C8F58;

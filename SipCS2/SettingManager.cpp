@@ -17,7 +17,6 @@ SettingManager::SettingManager()
 
 void SettingManager::CheckInput()
 {
-	//if (GetAsyncKeyState(VK_UP))
 	if (GetAsyncKeyState(m_ToggleBhop))
 	{
 		this->m_BhopEnabled = !IsBhopEnabled();
@@ -25,7 +24,6 @@ void SettingManager::CheckInput()
 		std::cout << "||     Bhop   -->  " << status << "      ||" << std::endl;
 		Sleep(100);
 	}
-	//if (GetAsyncKeyState(VK_DOWN))
 	if (GetAsyncKeyState(m_ToggleTrigger))
 	{
 		this->m_TriggerEnabled = !IsTriggerEnabled();
@@ -33,7 +31,6 @@ void SettingManager::CheckInput()
 		std::cout << "||    Trigger   -->  " << status << "    ||" << std::endl;
 		Sleep(100);
 	}
-	//if (GetAsyncKeyState(VK_RIGHT))
 	if (GetAsyncKeyState(m_ToggleDefuseCheck))
 	{
 		this->m_DefuseCheckEnabled = !IsDefuseCheckEnabled();

@@ -14,7 +14,6 @@ PMemory::PMemory(const char* procName)
 		if (!strcmp(procName, entry.szExeFile))
 		{
 			this->m_PID = entry.th32ProcessID;
-			//this->m_pHandle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, this->m_PID);
 			this->m_pHandle = OpenProcess(PROCESS_VM_READ, FALSE, this->m_PID);
 			break;
 		}
