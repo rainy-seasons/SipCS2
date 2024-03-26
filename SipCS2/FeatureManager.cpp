@@ -16,6 +16,12 @@ FeatureManager::FeatureManager()
 	//scanModule = reinterpret_cast<HMODULE>(clientDLL);
 	//GetOffsets();
 	InitStaticAddresses();
+
+	input.type = INPUT_KEYBOARD;
+	input.ki.wScan = 0;
+	input.ki.time = 0;
+	input.ki.dwExtraInfo = 0;
+	input.ki.wVk = VK_LEFT;
 }
 
 void FeatureManager::InitStaticAddresses()
@@ -115,13 +121,13 @@ void FeatureManager::Bhop()
 	{
 		if (GetAsyncKeyState(VK_SPACE))
 		{
-			int onGround = Mem->ReadMem<int>(localPlayer + offsets::m_fFlags); // Read the onGround flag
+			int onGround = Mem->ReadMem<int>(localPlayer + offsets::m_fFlags);
 
-			if ((onGround & 1 << 0))
+			if ((onGround & 1 << 0) == 1)
 			{
-				std::this_thread::sleep_for(std::chrono::milliseconds(15));
-				keybd_event(VK_LEFT, 0, 0, 0);
-				keybd_event(VK_LEFT, 0, KEYEVENTF_KEYUP, 0);
+				keybd_event(VK_OEM_PLUS, 0, 0, 0);
+				Sleep(15);
+				keybd_event(VK_OEM_PLUS, 0, KEYEVENTF_KEYUP, 0);
 			}
 		}
 	}
@@ -129,7 +135,6 @@ void FeatureManager::Bhop()
 
 void FeatureManager::Trigger()
 {
-	//if (GetAsyncKeyState(VK_LMENU)) // Left ALT
 	if (GetAsyncKeyState(m_ActivateTrigger))
 	{
 		m_iIDEntIndex = Mem->ReadMem<int32_t>(localPlayerPawn + offsets::m_iIDEntIndex);

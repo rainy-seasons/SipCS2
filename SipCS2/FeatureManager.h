@@ -43,4 +43,6 @@ private:
 	uintptr_t localPlayerPawn; // for triggerbot
 
 	int m_ActivateTrigger;
+
+	INPUT input;
 };
