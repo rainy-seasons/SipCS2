@@ -16,14 +16,9 @@ FeatureManager::FeatureManager()
 	//scanModule = reinterpret_cast<HMODULE>(clientDLL);
 	//GetOffsets();
 	InitStaticAddresses();
-
-	input.type = INPUT_KEYBOARD;
-	input.ki.wScan = 0;
-	input.ki.time = 0;
-	input.ki.dwExtraInfo = 0;
-	input.ki.wVk = VK_LEFT;
 }
 
+// Initialize some static addresses that don't change over the course of a match
 void FeatureManager::InitStaticAddresses()
 {
 	entityList = Mem->ReadMem<uintptr_t>(clientDLL + offsets::dwEntityList);
@@ -45,6 +40,10 @@ bool FeatureManager::DefuseCheck()
 	bool defusing = false;
 	for (int i = 0; i < 64; i++)
 	{
+		/********************************************************/
+		/* Idk man. This is just how it's all set up in memory. */
+		/********************************************************/
+
 		uintptr_t listEntity = Mem->ReadMem<uintptr_t>(entityList + ((8 * (i & 0x7FFF) >> 9) + 16));
 		if (!listEntity)
 			continue;
@@ -78,16 +77,16 @@ bool FeatureManager::DefuseCheck()
 void FeatureManager::DefuseFakeCheck()
 {
 	bool previousDefusingState = false;
-	if (IsBombPlanted())
+	if (IsBombPlanted()) // If the bomb is planted
 	{
 		while (true)
 		{
-			bool currentDefusingState = DefuseCheck();
-			if (previousDefusingState && !currentDefusingState)
+			bool currentDefusingState = DefuseCheck(); // Are they defusing?
+			if (previousDefusingState && !currentDefusingState) // If the defuse state has changed
 			{
-				std::cout << '\a';
+				std::cout << '\a'; // Makes the windows ping sound to indicate they've stopped defusing (fake defuse)
 			}
-			previousDefusingState = currentDefusingState;
+			previousDefusingState = currentDefusingState; // Sets new defuse state
 			std::this_thread::sleep_for(std::chrono::milliseconds(50));
 		}
 	}
@@ -123,9 +122,13 @@ void FeatureManager::Bhop()
 		{
 			int onGround = Mem->ReadMem<int>(localPlayer + offsets::m_fFlags);
 
-			if ((onGround & 1 << 0) == 1)
+			if ((onGround & 1 << 0)) // Checks the correct flag from the bit field
 			{
-				keybd_event(VK_OEM_PLUS, 0, 0, 0);
+				// Plus key should be bound to +jump in-game
+				// This is due to how the engine handles inputs
+				// With jump bound to space, and holding space to bunnyhop, it confuses the engine and 
+				//   the jumps will not be timed well enough to maintain speed
+				keybd_event(VK_OEM_PLUS, 0, 0, 0); 
 				Sleep(15);
 				keybd_event(VK_OEM_PLUS, 0, KEYEVENTF_KEYUP, 0);
 			}
@@ -158,61 +161,61 @@ void FeatureManager::Trigger()
 	}
 }
 
-void FeatureManager::GetOffsets()
-{
-	if (clientDLL)
-	{
-		offsets::dwEntityList = FindOffset(Patterns::dwEntityList.signature, Patterns::dwEntityList.mask);
-		if (offsets::dwEntityList != 0)
-		{
-			std::cout << "dwEntityList: 0x" << std::hex << offsets::dwEntityList << std::endl;
-			Sleep(5000);
-		}
-	}
-}
+//void FeatureManager::GetOffsets()
+//{
+//	if (clientDLL)
+//	{
+//		offsets::dwEntityList = FindOffset(Patterns::dwEntityList.signature, Patterns::dwEntityList.mask);
+//		if (offsets::dwEntityList != 0)
+//		{
+//			std::cout << "dwEntityList: 0x" << std::hex << offsets::dwEntityList << std::endl;
+//			Sleep(5000);
+//		}
+//	}
+//}
 
-uintptr_t FeatureManager::FindOffset(const char* pattern, const char* mask) const
-{
-	MODULEINFO moduleInfo;
-	GetModuleInformation(Mem->GetProcessHandle(), scanModule, &moduleInfo, sizeof(MODULEINFO));
-
-	uintptr_t baseAddress = clientDLL;
-	uintptr_t endAddress = baseAddress + moduleInfo.SizeOfImage;
-
-	const size_t patternLength = strlen(mask);
-	const auto patternBytes = pattern;
-
-	for (uintptr_t i = baseAddress; i < endAddress - patternLength; ++i) {
-		bool found = true;
-		for (size_t j = 0; j < patternLength; ++j) {
-			if (i + j >= endAddress) {
-				found = false;
-				break; // Check if we're going beyond the valid memory region
-			}
-
-			if (mask[j] == 'x') {
-				const char* currentBytePtr = reinterpret_cast<const char*>(i + j);
-
-				__try {
-					// Attempt to read from the memory location
-					char value = *currentBytePtr;
-				}
-				__except (EXCEPTION_EXECUTE_HANDLER) {
-					found = false;  // Access violation occurred
-					break;
-				}
-
-				if (patternBytes[j] != *currentBytePtr) {
-					found = false;
-					break;
-				}
-			}
-		}
-
-		if (found) {
-			return i - clientDLL;
-		}
-	}
-
-	return 0;
-}
+//uintptr_t FeatureManager::FindOffset(const char* pattern, const char* mask) const
+//{
+//	MODULEINFO moduleInfo;
+//	GetModuleInformation(Mem->GetProcessHandle(), scanModule, &moduleInfo, sizeof(MODULEINFO));
+//
+//	uintptr_t baseAddress = clientDLL;
+//	uintptr_t endAddress = baseAddress + moduleInfo.SizeOfImage;
+//
+//	const size_t patternLength = strlen(mask);
+//	const auto patternBytes = pattern;
+//
+//	for (uintptr_t i = baseAddress; i < endAddress - patternLength; ++i) {
+//		bool found = true;
+//		for (size_t j = 0; j < patternLength; ++j) {
+//			if (i + j >= endAddress) {
+//				found = false;
+//				break; // Check if we're going beyond the valid memory region
+//			}
+//
+//			if (mask[j] == 'x') {
+//				const char* currentBytePtr = reinterpret_cast<const char*>(i + j);
+//
+//				__try {
+//					// Attempt to read from the memory location
+//					char value = *currentBytePtr;
+//				}
+//				__except (EXCEPTION_EXECUTE_HANDLER) {
+//					found = false;  // Access violation occurred
+//					break;
+//				}
+//
+//				if (patternBytes[j] != *currentBytePtr) {
+//					found = false;
+//					break;
+//				}
+//			}
+//		}
+//
+//		if (found) {
+//			return i - clientDLL;
+//		}
+//	}
+//
+//	return 0;
+//}

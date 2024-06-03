@@ -129,6 +129,7 @@
     <ClInclude Include="FeatureManager.h" />
     <ClInclude Include="Offsets.h" />
     <ClInclude Include="Patterns.h" />
+    <ClInclude Include="PatternScanner.h" />
     <ClInclude Include="PMemory.h" />
     <ClInclude Include="SettingManager.h" />
   </ItemGroup>
@@ -136,6 +137,7 @@
     <ClCompile Include="CFGManager.cpp" />
     <ClCompile Include="FeatureManager.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="PatternScanner.cpp" />
     <ClCompile Include="PMemory.cpp" />
     <ClCompile Include="SettingManager.cpp" />
   </ItemGroup>

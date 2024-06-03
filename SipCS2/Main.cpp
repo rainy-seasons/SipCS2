@@ -13,7 +13,7 @@ int main()
 	auto Settings = SettingManager();
 	auto Feature = FeatureManager();
 	
-
+	// Main loop
 	while (true)
 	{
 		Settings.CheckInput();
@@ -35,6 +35,7 @@ int main()
 	}
 }
 
+// Sets up the console window with desired layout
 void WindowSetup()
 {
 	HWND console = GetConsoleWindow();
@@ -64,8 +65,6 @@ void MenuScreen()
 	std::cout << R"(____/ _|  .__/  )" << std::endl;
 	std::cout << R"(         _|     )" << std::endl;
 
-
-	//std::cout << "||          Sip            ||" << std::endl;
 	std::cout << "-----------------------------" << std::endl;
 	std::cout << "|| [ UP ]     Bhop         ||" << std::endl;
 	std::cout << "|| [ DWN ]    Trigger      ||" << std::endl;

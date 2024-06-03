@@ -5,19 +5,16 @@
 
 namespace offsets
 {
-	uintptr_t dwEntityList = 0x18C2D58;
-	uintptr_t dwLocalPlayerController = 0x1912578;
-	uintptr_t dwLocalPlayerPawn = 0x17371A8;
-	uintptr_t dwGameRules = 0x191FCA0;  // contains *m_bBombPlanted and *m_bIsDefusing
-	uintptr_t m_hPlayerPawn = 0x7E4;
-	//uintptr_t m_fFlags = 0x3C8; // maybe??????
-	uintptr_t m_fFlags = 0x3D4;
-	uintptr_t m_iIDEntIndex = 0x15A4; // crosshair index
-	uintptr_t m_iTeamNum = 0x3CB;
-	uintptr_t m_iHealth = 0x334;
-	//uintptr_t m_bIsScoped = 0x1400;
-	uintptr_t m_bIsDefusing = 0x1408;
-	uintptr_t m_bBombPlanted = 0x1ACB; // IDK
-	//uintptr_t m_bBombPlanted = 0x9DD;
+	uintptr_t dwEntityList = 0x18C7F98;			   // Entity list contains pointers to every registered entity
+	uintptr_t dwLocalPlayerController = 0x19176A8; // Needed to resolve localplayer
+	uintptr_t dwLocalPlayerPawn = 0x173B568;       // Needed to resolve localplayer
+	uintptr_t dwGameRules = 0x1924EF0;             // contains *m_bBombPlanted and *m_bIsDefusing
+	uintptr_t m_hPlayerPawn = 0x7E4;               // Needed to resolve localplayer
+	uintptr_t m_fFlags = 0x3D4;                    // contains onGround flag
+	uintptr_t m_iIDEntIndex = 0x13B0;              // crosshair index
+	uintptr_t m_iTeamNum = 0x3CB;                  // Offset that gives a team index of the entity
+	uintptr_t m_iHealth = 0x334;                   // Gives health value for the entity
+	uintptr_t m_bIsDefusing = 0x1408;              // Checks if the entity is defusing
+	uintptr_t m_bBombPlanted = 0x9DD;              // Checks if bomb is planted
 }
 #endif

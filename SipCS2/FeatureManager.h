@@ -16,17 +16,12 @@ public:
 	void StopDefuseThread();
 	bool IsDefuseThreadRunning();
 
-	void GetOffsets(); // Scanner function
-
 private:
 	uintptr_t clientDLL;
 
 	void InitStaticAddresses();
 	bool IsBombPlanted();
 	bool DefuseCheck();
-
-	uintptr_t FindOffset(const char* pattern, const char* mask) const; // another scanner function
-	HMODULE scanModule;
 
 	std::thread defuseThread;
 	bool defuseThreadRunning = false;
@@ -43,6 +38,4 @@ private:
 	uintptr_t localPlayerPawn; // for triggerbot
 
 	int m_ActivateTrigger;
-
-	INPUT input;
 };
